@@ -1,0 +1,19 @@
+server {
+    listen 80;
+    server_name localhost;
+    autoindex on;
+    #直接输入域名进入的目录和默认解析的文件
+    location / {
+	root /var/www;
+	index index;
+	#try_files $uri $uri/ /index.php?s=$uri&$args;
+    }
+
+    #解析.php的文件
+    location ~ \.php$ {
+        root /www;
+	fastcgi_pass 127.0.0.1:9000;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
