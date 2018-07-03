@@ -8,6 +8,7 @@ docker pull php:7.2.7-fpm-rewrite
 docker rm $(docker ps -a| grep "php" |cut -d " " -f 1) -f
 docker run -d --name php --net=host  \
 	-v /usr/local/docker/php/www:/www \
+	-v /usr/local/docker/php/conf/php.ini:/usr/local/etc/php/php.ini \
 	-v /usr/local/docker/php/logs:/phplogs \
 	php:7.2.7-fpm-rewrite
  
@@ -19,5 +20,5 @@ docker run -d --name nginx --net=host \
 	-v /usr/local/docker/nginx/conf/nginx.conf:/etc/nginx/nginx.conf \
 	-v /usr/local/docker/nginx/conf/conf.d:/etc/nginx/conf.d \
 	-v /usr/local/docker/nginx/logs:/var/log/nginx \
-	-v /usr/local/docker/nginx/html:/var/www \
+	-v /usr/local/docker/nginx/html:/var/www/html \
 	nginx
