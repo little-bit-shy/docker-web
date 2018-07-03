@@ -2,7 +2,7 @@
 #web环境部署
 
 dir="/usr/local/docker"
-[ -d "$dir" ] && rmdir "$dir"
+[ -d "$dir" ] && rm -rf "$dir"
 mkdir "$dir"
 mv ./php ${dir}
 mv ./nginx ${dir}
