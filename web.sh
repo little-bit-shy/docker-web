@@ -8,7 +8,7 @@ mv ./php ${dir}
 mv ./nginx ${dir}
 
 #############################Php
-docker build -t php:7.2.7-fpm-rewrite ./php 
+docker build -t php:7.2.7-fpm-rewrite ${dir}/php
 
 docker pull php:7.2.7-fpm-rewrite
 docker rm $(docker ps -a| grep "php" |cut -d " " -f 1) -f
