@@ -2,9 +2,9 @@
 #web环境部署
 
 read -p "application dir:" dir
-[ -d "$dir" ] || mkdir "$dir"
-mv ./php ${dir}
-mv ./nginx ${dir}
+[ -d "$dir" ] || mkdir -p "$dir" || exit "the application dir is fail!"
+mv -i ./php ${dir}
+mv -i ./nginx ${dir}
 
 #############################Php
 docker build -t php:7.2.7-fpm-rewrite ${dir}/php
