@@ -10,10 +10,10 @@ fi
 /bin/cp -fr ./php ${dir}
 /bin/cp -fr ./nginx ${dir}
 /bin/cp -fr ./mysql ${dir}
+/bin/cp -fr ./redis ${dir}
 
 #############################Php
 docker build -t php:7.2.7-fpm-rewrite ${dir}/php
-
 docker pull php:7.2.7-fpm-rewrite
 docker rm $(docker ps -a| grep "php" |cut -d " " -f 1) -f
 docker run -d --name php --net=host  \
@@ -25,7 +25,6 @@ docker run -d --name php --net=host  \
 	php:7.2.7-fpm-rewrite
  
 ############################Nginx
- 
 docker pull nginx
 docker rm $(docker ps -a| grep "nginx" |cut -d " " -f 1) -f
 docker run -d --name nginx --net=host \
@@ -36,7 +35,6 @@ docker run -d --name nginx --net=host \
 	nginx
 
 ############################Mysql
-
 docker pull mysql:5.6
 docker rm $(docker ps -a| grep "mysql" |cut -d " " -f 1) -f
 docker run -d --name mysql --net=host \
@@ -47,3 +45,10 @@ docker run -d --name mysql --net=host \
     -v ${dir}/mysql/data:/var/lib/mysql \
     -e MYSQL_ROOT_PASSWORD=123456 \
     mysql:5.6
+
+############################Redis
+docker pull  redis:4.0
+docker rm $(docker ps -a| grep "redis" |cut -d " " -f 1) -f
+docker run -d --name redis --net=host \
+    -v ${dir}/redis/data:/data  \
+    -d redis:4.0 redis-server --appendonly yes
