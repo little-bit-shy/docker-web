@@ -9,6 +9,7 @@ if [ ! -d "$dir" ];then
 fi
 /bin/cp -fr ./php ${dir}
 /bin/cp -fr ./nginx ${dir}
+/bin/cp -fr ./mysql ${dir}
 
 #############################Php
 docker build -t php:7.2.7-fpm-rewrite ${dir}/php
