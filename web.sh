@@ -3,7 +3,10 @@
 
 read -p "application dir:" dir
 [ -d "$dir" ] || mkdir "$dir"
-[ -d "$dir" ] || (echo "the application dir is fail!" && exit 2)
+if [ ! -d "$dir" ];then
+    echo "the application dir is fail!"
+    exit 2
+fi
 mv -i ./php ${dir}
 mv -i ./nginx ${dir}
 
