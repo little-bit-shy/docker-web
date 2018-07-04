@@ -33,3 +33,16 @@ docker run -d --name nginx --net=host \
 	-v ${dir}/nginx/logs:/var/log/nginx \
 	-v ${dir}/nginx/html:/var/www/html \
 	nginx
+
+############################Mysql
+
+docker pull mysql:5.6
+docker rm $(docker ps -a| grep "mysql" |cut -d " " -f 1) -f
+docker run -d --name mysql --net=host \
+    -v ${dir}/mysql/conf/my.cnf:/etc/mysql/my.cnf \
+    -v ${dir}/mysql/conf/conf.d/mysql.cnf:/etc/mysql/conf.d/mysql.cnf \
+    -v ${dir}/mysql/conf/mysql.conf.d/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf \
+    -v ${dir}/mysql/logs/error.log:/var/log/mysql/error.log \
+    -v ${dir}/mysql/data:/var/lib/mysql \
+    -e MYSQL_ROOT_PASSWORD=123456 \
+    mysql:5.6
