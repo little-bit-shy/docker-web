@@ -1,9 +1,8 @@
 #!/bin/bash
 #web环境部署
 
-dir="/usr/local/docker"
-[ -d "$dir" ] && rm -rf "$dir"
-mkdir "$dir"
+read -p "application dir:" dir
+[ -d "$dir" ] || mkdir "$dir"
 mv ./php ${dir}
 mv ./nginx ${dir}
 
