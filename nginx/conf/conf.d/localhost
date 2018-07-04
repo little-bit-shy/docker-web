@@ -4,7 +4,7 @@ server {
     autoindex on;
     #直接输入域名进入的目录和默认解析的文件
     location / {
-	root /var/www/html;
+	root /var/www;
 	index index;
 	#try_files $uri $uri/ /index.php?s=$uri&$args;
     }
