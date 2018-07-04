@@ -11,6 +11,7 @@ fi
 /bin/cp -fr ./nginx ${dir}
 /bin/cp -fr ./mysql ${dir}
 /bin/cp -fr ./redis ${dir}
+/bin/cp -fr ./web.sh ${dir}
 
 #############################Php
 docker build -t php:7.2.7-fpm-rewrite ${dir}/php
