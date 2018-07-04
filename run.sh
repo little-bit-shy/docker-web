@@ -1,7 +1,7 @@
 #!/bin/bash
 #web环境部署
 
-dir=${pwd}
+dir=${PWD}
 
 #############################Php
 docker build -t php:7.2.7-fpm-rewrite ${dir}/php
