@@ -7,8 +7,8 @@ if [ ! -d "$dir" ];then
     echo "the application dir is fail!"
     exit 2
 fi
-mv -f ./php ${dir}
-mv -f ./nginx ${dir}
+mv -if ./php ${dir}
+mv -if ./nginx ${dir}
 
 #############################Php
 docker build -t php:7.2.7-fpm-rewrite ${dir}/php
