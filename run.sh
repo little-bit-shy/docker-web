@@ -1,0 +1,45 @@
+#!/bin/bash
+#web环境部署
+
+dir=${pwd}
+
+#############################Php
+docker build -t php:7.2.7-fpm-rewrite ${dir}/php
+docker pull php:7.2.7-fpm-rewrite
+docker rm $(docker ps -a| grep "php" |cut -d " " -f 1) -f
+docker run -d --name php --net=host  \
+	-v ${dir}/php/www:/www \
+	-v ${dir}/php/conf/php.ini:/usr/local/etc/php/php.ini \
+	-v ${dir}/php/conf/php-fpm.conf:/usr/local/etc/php-fpm.conf \
+	-v ${dir}/php/conf/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf \
+	-v ${dir}/php/logs:/phplogs \
+	php:7.2.7-fpm-rewrite
+ 
+############################Nginx
+docker pull nginx
+docker rm $(docker ps -a| grep "nginx" |cut -d " " -f 1) -f
+docker run -d --name nginx --net=host \
+	-v ${dir}/nginx/conf/nginx.conf:/etc/nginx/nginx.conf \
+	-v ${dir}/nginx/conf/conf.d:/etc/nginx/conf.d \
+	-v ${dir}/nginx/logs:/var/log/nginx \
+	-v ${dir}/nginx/html:/var/www/html \
+	nginx
+
+############################Mysql
+docker pull mysql:5.6
+docker rm $(docker ps -a| grep "mysql" |cut -d " " -f 1) -f
+docker run -d --name mysql --net=host \
+    -v ${dir}/mysql/conf/my.cnf:/etc/mysql/my.cnf \
+    -v ${dir}/mysql/conf/conf.d/mysql.cnf:/etc/mysql/conf.d/mysql.cnf \
+    -v ${dir}/mysql/conf/mysql.conf.d/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf \
+    -v ${dir}/mysql/logs/error.log:/var/log/mysql/error.log \
+    -v ${dir}/mysql/data:/var/lib/mysql \
+    -e MYSQL_ROOT_PASSWORD=123456 \
+    mysql:5.6
+
+############################Redis
+docker pull  redis:4.0
+docker rm $(docker ps -a| grep "redis" |cut -d " " -f 1) -f
+docker run -d --name redis --net=host \
+    -v ${dir}/redis/data:/data  \
+    -d redis:4.0 redis-server --appendonly yes
