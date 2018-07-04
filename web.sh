@@ -2,7 +2,7 @@
 #web环境部署
 
 read -p "application dir:" dir
-[ -d "$dir" ] || mkdir -p "$dir" || exit "the application dir is fail!"
+([ -d "$dir" ] || mkdir "$dir") || exit "the application dir is fail!"
 mv -i ./php ${dir}
 mv -i ./nginx ${dir}
 
