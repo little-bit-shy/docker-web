@@ -2,17 +2,25 @@ server {
     listen 80;
     server_name localhost;
     autoindex on;
+    root /var/www/html;
+
     #直接输入域名进入的目录和默认解析的文件
     location / {
-	root /var/www/html;
-	index index;
-	#try_files $uri $uri/ /index.php?s=$uri&$args;
+        if ( $request_method = 'OPTIONS' ) {
+            add_header Access-Control-Allow-Origin *;
+            add_header Access-Control-Allow-Credentials true;
+            add_header Access-Control-Allow-Methods 'GET,POST,OPTIONS';
+            add_header 'Access-Control-Allow-Headers' 'x-access-token,DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,X-Custom-Header';
+            add_header Access-Control-Max-Age 6000;
+            return 204;
+        }
+        # try_files $uri $uri/ /index.php?s=$uri&$args;
     }
 
     #解析.php的文件
     location ~ \.php$ {
         root /www;
-	fastcgi_pass 127.0.0.1:9000;
+	    fastcgi_pass 127.0.0.1:9000;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
     }
