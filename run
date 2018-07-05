@@ -1,5 +1,5 @@
 #!/bin/bash
-#web环境部署
+#web环境启动
 
 dir=${PWD}
 
