@@ -8,6 +8,7 @@ bash install.sh
 等待安装...........  
 
 ##### web环境启动
+到安装目录下之下run.sh脚本  
 bash run.sh  
 等待启动...........  
 
