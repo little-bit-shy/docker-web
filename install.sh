@@ -4,7 +4,7 @@
 read -p "application dir:" dir
 [ -d "$dir" ] || mkdir "$dir"
 if [ ! -d "$dir" ];then
-    echo -e "\033[31m the application dir is fail! \033[0m"
+    echo -e "\033[31m install fail! \033[0m"
     exit 2
 fi
 
