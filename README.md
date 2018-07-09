@@ -3,13 +3,9 @@
 如果你已安装可跳过此步骤  
 bash docker.install.sh  
 
-##### web环境安装
-bash install.sh  
-等待安装...........  
-
 ##### web环境启动
 到安装目录下执行启动脚本  
-bash run.sh  
+bash run  
 等待启动...........  
 
 ##### 直接访问
