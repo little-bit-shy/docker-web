@@ -42,4 +42,5 @@ docker pull  redis:4.0
 docker rm $(docker ps -a| grep "redis" |cut -d " " -f 1) -f
 docker run -d --name redis --net=host \
     -v ${dir}/redis/data:/data  \
-    -d redis:4.0 redis-server --appendonly yes
+    -v ${dir}/redis/conf/redis.conf:/usr/local/etc/redis.conf  \
+    -d redis:4.0 redis-server -c /usr/local/etc/redis.conf --appendonly yes
