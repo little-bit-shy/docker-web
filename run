@@ -4,7 +4,7 @@
 dir=${PWD}
 
 #############################Php
-docker build -t php:7.2.7-fpm-rewrite ${dir}/php
+docker build --network host -t php:7.2.7-fpm-rewrite ${dir}/php
 docker pull php:7.2.7-fpm-rewrite
 docker rm $(docker ps -a| grep "php" |cut -d " " -f 1) -f
 docker run -d --name php --net=host  \
