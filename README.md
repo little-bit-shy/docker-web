@@ -3,6 +3,9 @@
 如果你已安装可跳过此步骤  
 bash docker.install.sh  
 
+##### 启动docker
+service start docker
+
 ##### web环境启动
 到安装目录下执行启动脚本  
 bash run  
