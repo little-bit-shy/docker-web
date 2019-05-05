@@ -1,7 +1,7 @@
 #!/bin/bash
 #web环境启动
 
-dir=${PWD}
+dir=$(cd `dirname $0`; pwd)
 
 #############################Php
 docker build --network host -t php:7.2.7-fpm-rewrite ${dir}/php
