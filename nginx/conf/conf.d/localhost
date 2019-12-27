@@ -2,7 +2,7 @@ server {
     listen 80;
     server_name localhost;
     autoindex on;
-    root /var/www/html;
+    root /usr/local/openresty/nginx/html;
 
     #直接输入域名进入的目录和默认解析的文件
     location / {
