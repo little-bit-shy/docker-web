@@ -3,7 +3,7 @@ server {
     server_name localhost;
     autoindex on;
     root /usr/local/openresty/nginx/html;
-
+    log_escape_non_ascii off;
     access_log /usr/local/openresty/nginx/logs/access.log main;
     error_log /usr/local/openresty/nginx/logs/error.log;
 
