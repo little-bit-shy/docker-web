@@ -4,6 +4,9 @@ server {
     autoindex on;
     root /usr/local/openresty/nginx/html;
 
+    access_log /usr/local/openresty/nginx/logs/access.log main;
+    error_log /usr/local/openresty/nginx/logs/error.log;
+
     #直接输入域名进入的目录和默认解析的文件
     location / {
         if ( $request_method = 'OPTIONS' ) {
