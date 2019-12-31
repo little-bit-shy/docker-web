@@ -7,6 +7,16 @@ server {
     access_log /usr/local/openresty/nginx/logs/access.log main;
     error_log /usr/local/openresty/nginx/logs/error.log;
 
+    set $resp_body "";
+    lua_need_request_body on;
+    body_filter_by_lua '
+        local resp_body = string.sub(ngx.arg[1], 1, 1000)
+        ngx.ctx.buffered = (ngx.ctx.buffered or "") .. resp_body
+        if ngx.arg[2] then
+            ngx.var.resp_body = ngx.ctx.buffered
+        end
+    ';
+
     #直接输入域名进入的目录和默认解析的文件
     location / {
         if ( $request_method = 'OPTIONS' ) {
