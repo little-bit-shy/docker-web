@@ -17,7 +17,6 @@ RUN pecl install redis-4.0.1 \
 RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install opcache
 
-WORKDIR /usr/src/swoole
 RUN cd /tmp \
     && wget http://pecl.php.net/get/swoole-4.2.6.tgz \
     && tar -xzf /tmp/swoole-4.2.6.tgz -C /usr/src/swoole --strip-components=1 \
@@ -42,5 +41,6 @@ RUN cd /tmp \
 RUN pecl install rdkafka \
     && docker-php-ext-enable rdkafka
 
+WORKDIR /www
 
 
