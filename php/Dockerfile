@@ -5,7 +5,6 @@ RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libpng-dev \
-        openssl \
         libssl-dev \
         unzip \
     && docker-php-ext-install -j$(nproc) iconv \
@@ -17,7 +16,10 @@ RUN pecl install redis-4.0.1 \
 RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install opcache
 
+WORKDIR /www
+
 RUN cd /tmp \
+    && mkdir /usr/src/swoole \
     && wget http://pecl.php.net/get/swoole-4.2.6.tgz \
     && tar -xzf /tmp/swoole-4.2.6.tgz -C /usr/src/swoole --strip-components=1 \
     && cd /usr/src/swoole \
@@ -41,6 +43,4 @@ RUN cd /tmp \
 RUN pecl install rdkafka \
     && docker-php-ext-enable rdkafka
 
-WORKDIR /www
-
-
+RUN apt-get install -y python
