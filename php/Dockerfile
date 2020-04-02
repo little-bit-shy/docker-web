@@ -18,6 +18,7 @@ RUN docker-php-ext-install opcache
 
 WORKDIR /www
 
+# swoole扩展
 RUN cd /tmp \
     && mkdir /usr/src/swoole \
     && wget http://pecl.php.net/get/swoole-4.2.6.tgz \
@@ -31,6 +32,7 @@ RUN cd /tmp \
     && rm -f /tmp/swoole-4.2.6.tgz \
     && rm -r /usr/src/swoole
 
+# kafka扩展
 RUN cd /tmp \
     && wget https://github.com/edenhill/librdkafka/archive/v1.0.0.zip -O librdkafka.zip \
     && unzip librdkafka.zip \
@@ -43,4 +45,17 @@ RUN cd /tmp \
 RUN pecl install rdkafka \
     && docker-php-ext-enable rdkafka
 
+# tonyenc扩展，秘钥文件记得修改
+RUN cd /tmp \
+    && wget https://github.com/lihancong/tonyenc/archive/master.zip -O tonyenc.zip \
+    && unzip tonyenc.zip \
+    && cd tonyenc-master \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && docker-php-ext-enable tonyenc \
+    && rm -f /tmp/tonyenc.zip
+
+# 安装python
 RUN apt-get install -y python
