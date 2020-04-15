@@ -59,3 +59,6 @@ RUN cd /tmp \
 
 # 安装python
 RUN apt-get install -y python
+
+# php-amqplib依赖，用于rabbitmq
+RUN docker-php-ext-install bcmath
