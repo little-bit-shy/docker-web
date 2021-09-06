@@ -4,16 +4,16 @@
 dir=$(cd `dirname $0`; pwd)
 
 #############################Php
-docker build --network host -t php:7.2.7-fpm-rewrite ${dir}/php
-docker pull php:7.2.7-fpm-rewrite
+docker build --network host -t php:rewrite ${dir}/php
+docker pull php:rewrite
 docker rm $(docker ps -a| grep "php" |cut -d " " -f 1) -f
 docker run -d --name php --net=host  \
-	-v ${dir}/php/www:/www \
-	-v ${dir}/php/conf/php.ini:/usr/local/etc/php/php.ini \
-	-v ${dir}/php/conf/php-fpm.conf:/usr/local/etc/php-fpm.conf \
-	-v ${dir}/php/conf/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf \
-	-v ${dir}/php/logs:/phplogs \
-	php:7.2.7-fpm-rewrite
+    -v ${dir}/php/www:/www \
+    -v ${dir}/php/conf/php.ini:/usr/local/etc/php/php.ini \
+    -v ${dir}/php/conf/php-fpm.conf:/usr/local/etc/php-fpm.conf \
+    -v ${dir}/php/conf/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf \
+    -v ${dir}/php/logs:/phplogs \
+    php:rewrite
 
 ############################Openresty
 docker pull openresty/openresty

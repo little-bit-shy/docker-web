@@ -1,35 +1,47 @@
-FROM php:7.2.7-fpm
+FROM php:7.4-fpm
 
-RUN apt-get update && apt-get install -y \
-        wget \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libpng-dev \
-        libssl-dev \
-        unzip \
-    && docker-php-ext-install -j$(nproc) iconv \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd
+RUN rm -rf /etc/apt/sources.list
+RUN echo "deb http://ftp.cn.debian.org/debian/ buster main non-free contrib" >> /etc/apt/sources.list
+RUN echo "deb http://ftp.cn.debian.org/debian-security buster/updates main" >> /etc/apt/sources.list
+RUN echo "deb http://ftp.cn.debian.org/debian/ buster-updates main non-free contrib" >> /etc/apt/sources.list
+RUN echo "deb http://ftp.cn.debian.org/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list
+RUN echo "deb-src http://ftp.cn.debian.org/debian-security buster/updates main" >> /etc/apt/sources.list
+RUN echo "deb-src http://ftp.cn.debian.org/debian/ buster main non-free contrib" >> /etc/apt/sources.list
+RUN echo "deb-src http://ftp.cn.debian.org/debian/ buster-updates main non-free contrib" >> /etc/apt/sources.list
+RUN echo "deb-src http://ftp.cn.debian.org/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list
 
-RUN pecl install redis-4.0.1 \
-    && docker-php-ext-enable redis
+RUN apt-get update
+
+RUN pecl install redis-5.3.4 && docker-php-ext-enable redis
 RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install opcache
 
+RUN apt-get install libssl1.1=1.1.1d-0+deb10u7 -y --allow-downgrades
+RUN apt-get install zlib1g=1:1.2.11.dfsg-1 -y --allow-downgrades
+RUN apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+        libssl-dev
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-install -j$(nproc) gd
+
 WORKDIR /www
+
+RUN apt-get install -y wget unzip
 
 # swoole扩展
 RUN cd /tmp \
     && mkdir /usr/src/swoole \
-    && wget http://pecl.php.net/get/swoole-4.2.6.tgz \
-    && tar -xzf /tmp/swoole-4.2.6.tgz -C /usr/src/swoole --strip-components=1 \
+    && wget http://pecl.php.net/get/swoole-4.7.1.tgz \
+    && tar -xzf /tmp/swoole-4.7.1.tgz -C /usr/src/swoole --strip-components=1 \
     && cd /usr/src/swoole \
     && phpize \
     && ./configure --enable-openssl \
     && make \
     && make install \
     && docker-php-ext-enable swoole \
-    && rm -f /tmp/swoole-4.2.6.tgz \
+    && rm -f /tmp/swoole-4.7.1.tgz \
     && rm -r /usr/src/swoole
 
 # kafka扩展
@@ -44,21 +56,8 @@ RUN cd /tmp \
 
 RUN pecl install rdkafka \
     && docker-php-ext-enable rdkafka
-
-# tonyenc扩展，秘钥文件记得修改
-RUN cd /tmp \
-    && wget https://github.com/lihancong/tonyenc/archive/master.zip -O tonyenc.zip \
-    && unzip tonyenc.zip \
-    && cd tonyenc-master \
-    && phpize \
-    && ./configure \
-    && make \
-    && make install \
-    && docker-php-ext-enable tonyenc \
-    && rm -f /tmp/tonyenc.zip
-
-# 安装python
-RUN apt-get install -y python
-
+    
 # php-amqplib依赖，用于rabbitmq
 RUN docker-php-ext-install bcmath
+    
+
