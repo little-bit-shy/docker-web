@@ -1,5 +1,7 @@
 FROM php:7.4-fpm
 
+ENV TZ='Asia/Shanghai'
+
 RUN rm -rf /etc/apt/sources.list
 RUN echo "deb http://ftp.cn.debian.org/debian/ buster main non-free contrib" >> /etc/apt/sources.list
 RUN echo "deb http://ftp.cn.debian.org/debian-security buster/updates main" >> /etc/apt/sources.list

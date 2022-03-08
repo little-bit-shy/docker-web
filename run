@@ -16,14 +16,16 @@ docker run -d --name php --net=host  \
     php:rewrite
 
 ############################Openresty
-docker pull openresty/openresty
+docker build --network host -t openresty/openresty:rewrite ${dir}/nginx
+docker pull openresty/openresty:rewrite
 docker rm $(docker ps -a| grep "openresty" |cut -d " " -f 1) -f
 docker run -d --name openresty --net=host \
-    -v ${dir}/nginx/html:/usr/local/openresty/nginx/html \
+    -v /www:/usr/local/openresty/nginx/html \
     -v ${dir}/nginx/logs:/usr/local/openresty/nginx/logs \
     -v ${dir}/nginx/conf/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf \
+    -v ${dir}/nginx/conf/logrotate:/etc/logrotate.d/openresty \
     -v ${dir}/nginx/conf/conf.d:/etc/nginx/conf.d \
-    openresty/openresty
+    openresty/openresty:rewrite
 
 ############################Mysql
 docker pull mysql:5.6
